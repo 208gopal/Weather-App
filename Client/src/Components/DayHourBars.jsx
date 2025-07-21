@@ -1,17 +1,19 @@
 export const DayForecast = ({ day, temp, condition, isToday, isSelected, onClick, dayIndex }) => (
   <div 
-    className={`text-center px-2 py-2 cursor-pointer transition-all duration-200 w-16 ${
-      isSelected 
-        ? 'bg-blue-500 text-white rounded-xl font-semibold shadow-md' 
-        : isToday 
-          ? 'bg-gray-100 rounded-xl font-semibold hover:bg-gray-200' 
-          : 'hover:bg-gray-50 rounded-xl'
-    }`}
+    className={`text-center px-2 py-2 cursor-pointer transition-all duration-200 
+      w-14 sm:w-16 md:w-20 lg:w-24
+      ${
+        isSelected 
+          ? 'bg-blue-500 text-white rounded-xl font-semibold shadow-md' 
+          : isToday 
+            ? 'bg-gray-100 rounded-xl font-semibold hover:bg-gray-200' 
+            : 'hover:bg-gray-50 rounded-xl'
+      }`}
     onClick={() => onClick(dayIndex)}
   >
-    <div className="text-xs">{day}</div>
-    <div className="text-sm font-bold">{temp}&deg;</div>
-    <div className={`text-xs ${isSelected ? 'text-blue-100' : 'text-gray-500'}`}>{condition}</div>
+    <div className="text-[10px] sm:text-xs md:text-sm">{day}</div>
+    <div className="text-xs sm:text-sm md:text-base font-bold">{temp}&deg;</div>
+    <div className={`text-[10px] sm:text-xs ${isSelected ? 'text-blue-100' : 'text-gray-500'}`}>{condition}</div>
   </div>
 );
 

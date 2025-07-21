@@ -220,97 +220,100 @@ const App = () => {
       }));
 
   return (
-    <div className="h-full w-full items-center justify-center bg-[#EAEAEA]">
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100">
+  <div className="h-full w-full items-center justify-center bg-[#EAEAEA]">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100">
+      
+      {/* Top Search Bar */}
+      <SearchBar 
+        handleSearch={handleSearch}
+        isLoading={isLoading}
+        useMyLocation={useMyLocation}
+      />
+
+      {/* Main Content: Left and Right sections */}
+      <div className="bg-white rounded-3xl shadow-md w-full max-w-6xl flex flex-col mb-8 lg:mb-0 lg:flex-row">
         
-        {/* Top Search Bar */}
-        <SearchBar 
-          handleSearch={handleSearch}
-          isLoading={isLoading}
-          useMyLocation={useMyLocation}
-        />
+        {/* Main Weather Section (Left) */}
+        <div className="w-full lg:w-2/3 lg:pr-6 p-4 lg:p-8 relative">
+          <div className="absolute top-0 right-0 h-full w-6 bg-white/40 blur-md pointer-events-none z-10"></div>
 
-        <div className="bg-white rounded-3xl shadow-md w-full max-w-6xl grid grid-cols-1 md:grid-cols-3">
-          
-          {/* Main Weather Section */}
-          <div className="md:col-span-2 pr-6 p-8 relative">
-            <div className="absolute top-0 right-0 h-full w-6 bg-white/40 blur-md pointer-events-none z-10"></div>
-
-            <div className="relative z-20">
-              <div className="flex justify-between items-start mb-2">
-                <div className="text-lg font-semibold text-gray-600 tracking-wide">{currentCity}</div>
-                <div className="text-lg font-semibold text-gray-600 tracking-wide">
-                  {`${selectedDate.getDate().toString().padStart(2, '0')}.${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}.${selectedDate.getFullYear()}`}
-                </div>
+          <div className="relative z-20">
+            <div className="flex justify-between items-start mb-2">
+              <div className="text-base md:text-lg font-semibold text-gray-600 tracking-wide">{currentCity}</div>
+              <div className="text-base md:text-lg font-semibold text-gray-600 tracking-wide">
+                {`${selectedDate.getDate().toString().padStart(2, '0')}.${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}.${selectedDate.getFullYear()}`}
               </div>
+            </div>
 
-              <div className="text-[20vh] font-semibold text-center text-[#696969] mt-4">{displayTemp}&deg;</div>
-              <div className="text-5xl text-center text-[#696969] mb-6">{displayCondition}</div>
+            <div className="text-[16vh] md:text-[18vh] lg:text-[20vh] font-semibold text-center text-[#696969] mt-4">{displayTemp}&deg;</div>
+            <div className="text-3xl md:text-4xl lg:text-5xl text-center text-[#696969] mb-6">{displayCondition}</div>
 
-              <div className="flex justify-center gap-12 mb-8">
-                <div className="text-sm flex items-center gap-1 text-[#696969]">
-                  <WindIcon /> <span>{displayWindSpeed} mph</span>
-                </div>
-                <div className="text-sm flex items-center gap-1 text-[#696969]">
-                  <DropIcon /> <span>{displayHumidity}%</span>
-                </div>
+            <div className="flex justify-center gap-8 md:gap-12 mb-8">
+              <div className="text-xs md:text-sm flex items-center gap-1 text-[#696969]">
+                <WindIcon /> <span>{displayWindSpeed} mph</span>
               </div>
-
-              <div className="flex justify-center items-center overflow-x-auto gap-2">
-                {dailyForecast.map((day, idx) => (
-                  <DayForecast 
-                    key={idx} 
-                    {...day} 
-                    isSelected={selectedDayIndex === idx}
-                    onClick={handleDayClick}
-                    dayIndex={idx}
-                  />
-                ))}
+              <div className="text-xs md:text-sm flex items-center gap-1 text-[#696969]">
+                <DropIcon /> <span>{displayHumidity}%</span>
               </div>
+            </div>
+
+            <div className="flex justify-center items-center overflow-x-auto gap-2 w-full">
+              {dailyForecast.map((day, idx) => (
+                <DayForecast 
+                  key={idx} 
+                  {...day} 
+                  isSelected={selectedDayIndex === idx}
+                  onClick={handleDayClick}
+                  dayIndex={idx}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Sidebar (Right) */}
+        <div className="w-full lg:w-1/3 lg:pl-6 pt-4 flex flex-col justify-between bg-[#F6F6F6] p-4 lg:p-8 items-center text-center">
+          <div>
+            <div className="text-2xl md:text-3xl font-normal py-4 text-gray-700">Good Morning</div>
+            <div className="text-2xl md:text-3xl mt-1 font-normal text-gray-700">
+              {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="pl-6 pt-4 flex flex-col justify-between bg-[#F6F6F6] p-8">
-            <div className="text-right">
-              <div className="text-3xl font-normal text-center py-4 text-gray-700">Good Morning</div>
-              <div className="text-3xl mt-1 font-normal text-center text-gray-700">
-                {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-            </div>
-
-            <div className="mt-8 text-center">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="text-4xl font-bold text-[#696969]">{displayTemp}&deg;</div>
-                <div className="flex flex-col gap-2 text-sm text-[#696969]">
-                  <div className="flex items-center gap-1">
-                    <WindIcon />
-                    <span>{displayWindSpeed} mph</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <DropIcon />
-                    <span>{displayHumidity}%</span>
-                  </div>
+          <div className="mt-8">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#696969]">{displayTemp}&deg;</div>
+              <div className="flex flex-col gap-2 text-xs md:text-sm text-[#696969]">
+                <div className="flex items-center gap-1">
+                  <WindIcon />
+                  <span>{displayWindSpeed} mph</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <DropIcon />
+                  <span>{displayHumidity}%</span>
                 </div>
               </div>
-              <div className="text-sm text-gray-600">Feels like {displayFeelsLike}&deg;</div>
-              <div className="text-md text-[#696969]">{displayCondition}</div>
             </div>
+            <div className="text-xs md:text-sm text-gray-600">Feels like {displayFeelsLike}&deg;</div>
+            <div className="text-sm md:text-md text-[#696969]">{displayCondition}</div>
+          </div>
 
-            <div className="mt-8">
-              <div className="text-lg font-semibold mb-4 text-center">Hourly Forecast</div>
-              <div className="grid grid-cols-3 gap-2">
+          <div className="mt-8 w-full">
+            <div className="text-base md:text-lg font-semibold mb-4 text-center">Hourly Forecast</div>
+            <div className='flex items-center justify-center'>
+              <div className="lg:grid lg:grid-cols-3 gap-2 sm:flex grid grid-cols-3 justify-center">
                 {hourlyForecast.map((hour, idx) => (
                   <HourForecast key={idx} {...hour} />
                 ))}
               </div>
             </div>
           </div>
-
         </div>
+
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default App;
